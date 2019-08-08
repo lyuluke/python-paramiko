@@ -1,19 +1,47 @@
-FROM python:3.6-alpine
+FROM ubuntu:18.04
 
-RUN apk add --virtual .install_dependencies_paramiko \
-    gcc \
-    musl-dev \
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN \
+
+#==================================================
+# supervisor
+#==================================================
+  apt-get update && apt-get install -y supervisor &&\
+  apt-get clean && rm -rf /var/lib/apt/lists/* && \
+  
+#==================================================
+# Python3.6
+#==================================================
+  apt-get update &&\
+  apt-get -qqy --no-install-recommends install \
+    python3.6 \
     python-dev \
+    python3-dev \
+    python3-pip \
+    python3-setuptools \
+    build-essential \
+    libssl-dev \
     libffi-dev \
-    openssl-dev \
-    build-base \
-    py-pip \
-&&  apk add zlib \
-    zlib-dev \
-    libssl1.0 \
-    openssl-dev \
-&&  pip install cffi \
-&&  pip install paramiko \
-&&  apk del .install_dependencies_paramiko
+    libxml2-dev \
+    libxslt1-dev \
+    zlib1g-dev \
+    python-pip \
+    curl \
+    git \
+    supervisor \
+    libltdl-dev &&\
 
-ENTRYPOINT ["/bin/sh"]
+#==================================================
+# Flask
+#==================================================
+  pip3 install flask_restplus &&\
+  pip3 install requests &&\
+  pip3 install opencv-python &&\
+  pip3 install vncdotool &&\
+  pip3 install paramiko &&\
+
+#==================================================
+# apt clean
+#==================================================
+  apt-get clean && rm -rf /var/lib/apt/lists/* &&\
