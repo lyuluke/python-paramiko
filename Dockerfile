@@ -1,47 +1,30 @@
-FROM ubuntu:18.04
+FROM python:3.6-alpine
 
-ENV DEBIAN_FRONTEND noninteractive
-
-RUN \
-
-#==================================================
-# supervisor
-#==================================================
-  apt-get update && apt-get install -y supervisor &&\
-  apt-get clean && rm -rf /var/lib/apt/lists/* && \
-  
-#==================================================
-# Python3.6
-#==================================================
-  apt-get update &&\
-  apt-get -qqy --no-install-recommends install \
-    python3.6 \
+RUN apk add --virtual .install_dependencies_paramiko \
+    gcc \
+    musl-dev \
     python-dev \
-    python3-dev \
-    python3-pip \
-    python3-setuptools \
-    build-essential \
-    libssl-dev \
     libffi-dev \
-    libxml2-dev \
-    libxslt1-dev \
-    zlib1g-dev \
-    python-pip \
-    curl \
-    git \
-    supervisor \
-    libltdl-dev &&\
-
-#==================================================
-# Flask
-#==================================================
-  pip3 install flask_restplus &&\
-  pip3 install requests &&\
-  pip3 install opencv-python &&\
-  pip3 install vncdotool &&\
-  pip3 install paramiko &&\
-
-#==================================================
-# apt clean
-#==================================================
-  apt-get clean && rm -rf /var/lib/apt/lists/* 
+    openssl-dev \
+    build-base \
+    py-pip \
+&&  apk add zlib \
+    zlib-dev \
+    libssl1.0 \
+    openssl-dev \
+&&  pip install cffi==1.11.5 \
+&&  pip install paramiko==2.4.2 \
+&&  pip install cryptography==2.4.2 \
+&&  pip install amqp==2.2.2 \
+&&  pip install Babel==2.5.3 \
+&&  pip install billiard==3.5.0.3 \
+&&  pip install celery==4.2.1 \
+&&  pip install flower==0.9.2 \
+&&  pip install kombu==4.2.0 \
+&&  pip install pytz==2018.3 \
+&&  pip install redis==2.10.6 \
+&&  pip install tornado==5.0.2 \
+&&  pip install vine==1.1.4 \
+&&  pip install cryptography==2.4.2 \
+&&  pip install paramiko==2.4.2 \
+&&  apk del .install_dependencies_paramiko
