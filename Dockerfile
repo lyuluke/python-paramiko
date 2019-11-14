@@ -7,6 +7,6 @@ RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/reposit
     rm -rf /var/cache/apk/* && \
     ln -s locale.h /usr/include/xlocale.h && \
     pip --no-cache-dir install --upgrade pip && \
-    pip --no-cache-dir install -r /requirements.txt && \
+    pip --no-cache-dir install -r /tmp/requirements.txt && \
     apk del .build-deps && \
     rm -rf /tmp/requirements.txt
